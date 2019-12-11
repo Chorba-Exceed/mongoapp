@@ -4,7 +4,6 @@ const app = express();
 const bodyParser = require("body-parser");
 const jsonParser = bodyParser.json();
 
-
 app.use('/api/todoList', jsonParser, todosRouter);
 
 app.listen(3000, function () {
