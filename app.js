@@ -6,11 +6,10 @@ const app = express();
 const bodyParser = require("body-parser");
 const jsonParser = bodyParser.json();
 
-app.use(session({ secret: 'admin', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }));
 app.use('/api/todoList', jsonParser, todosRouter);
 app.use('/auth', jsonParser, authRouter);
+require('./helpers/passport');
 
-require('./config/passport');
 app.listen(3000, function () {
     console.log("Server started");
 });

@@ -4,7 +4,7 @@ const Todo = require('../database/schems/todo');
 const {setErrorResponse, setUpFieldsToUpdate} = require('../helpers/helpers');
 
 function getItem(req, res) {
-    Todo.find({}).then((result) => {
+    Todo.find().then((result) => {
         return res.status(200).send(result);
     }).catch((err) => {
         return res.status(500).send(

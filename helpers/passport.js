@@ -14,7 +14,6 @@ passport.use(new LocalStrategy({
         return done(null, false, { errors:
                 { 'login or password': 'is invalid' } });
       }
-
       return done(null, user);
     }).catch(done);
 }));
