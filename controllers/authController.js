@@ -20,7 +20,7 @@ function register(req, res) {
     finalUser.setPassword(user.password);
 
     return finalUser.save()
-        .then(() => res.json({user: finalUser.toAuthJSON()}));
+        .then(() => res.json(finalUser.toAuthJSON()));
 };
 
 function login(req, res, next) {
@@ -32,17 +32,20 @@ function login(req, res, next) {
         return res.status(422).json({errors: 'Enter password'});
     }
     return passport.authenticate('local',
-        {session: false},
+        { session: false },
         (err, passportUser, info) => {
-            if (err) {
+            if(err) {
                 return next(err);
             }
-            if (passportUser) {
+
+            if(passportUser) {
                 const user = passportUser;
                 user.token = passportUser.generateJWT();
-                return res.send(user.toAuthJSON());
+
+                return res.json({ user: user.toAuthJSON() });
             }
-            return res.status(404).send(404);
+
+            return res.status(400).send();
         })(req, res, next);
 }
 
