@@ -5,7 +5,6 @@ const app = express();
 const bodyParser = require("body-parser");
 const mongoInit = require('./database/connectionDB');
 const passport = require('./helpers/passport');
-const { PORT } = require('./properties');
 
 app.use(bodyParser.urlencoded({
     extended: true,
@@ -22,8 +21,8 @@ app.use(apiRouter);
 
 mongoInit()
     .then((db) => {
-        app.listen(PORT, function () {
-            console.log(`Server started on ${PORT}`);
+        app.listen(3000, function () {
+            console.log(`Server started on 3000`);
         });
     })
     .catch(error => console.error(error));

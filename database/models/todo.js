@@ -1,15 +1,16 @@
-const {mongoose, Schema} = require("../connectionDB")
+const mongoose = require("mongoose");
 
-const todoScheme = new Schema({
+const todoScheme = new mongoose.Schema({
         description: String,
         complete: Boolean,
         author : {
-            type: Schema.Types.ObjectId,
+            type: mongoose.Types.ObjectId,
             ref: "user"
         }
     },
     { versionKey: false }
 );
+
 const Todo = mongoose.model("todo", todoScheme);
 
 module.exports = Todo;

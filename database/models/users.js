@@ -1,8 +1,8 @@
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
-const {mongoose, Schema} = require("../connectionDB")
+const mongoose = require("mongoose");
 
-const UsersSchema = new Schema({
+const UsersSchema = new mongoose.Schema({
          login: String,
          hash: String,
          salt: String,
@@ -22,20 +22,18 @@ UsersSchema.methods.validatePassword = function(password) {
     return this.hash === hash;
 };
 
-UsersSchema.methods.generateJWT = function() {
-    const today = new Date();
-    const expirationDate = new Date(today);
-    expirationDate.setDate(today.getDate() + 60);
-    return jwt.sign({
+UsersSchema.methods.generateJWT = function () {
+   return  jwt.sign({
         login: this.login,
         id: this._id,
-        exp: parseInt(expirationDate.getTime() / 1000, 10),
     }, 'secret');
+};
 
-}
-
-UsersSchema.methods.toAuthJSON = function() {
-    return {token: this.generateJWT()};
+UsersSchema.methods.toJSON = function () {
+    const obj = this.toObject();
+    delete obj.hash;
+    delete obj.salt;
+    return obj;
 };
 
 const user = mongoose.model('Users', UsersSchema);

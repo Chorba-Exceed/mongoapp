@@ -2,7 +2,6 @@ const passport = require('passport');
 const Users = require('../database/models/users');
 const LocalStrategy = require('passport-local');
 const { Strategy, ExtractJwt } = require('passport-jwt');
-const { JWT_SECRET } = require('../properties');
 
 passport.use(new LocalStrategy({
     usernameField: 'login',
@@ -20,7 +19,7 @@ passport.use(new LocalStrategy({
 
 const jwtOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: JWT_SECRET,
+    secretOrKey: 'secret',
 };
 
 passport.use(new Strategy(jwtOptions,
