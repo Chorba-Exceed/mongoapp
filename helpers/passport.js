@@ -6,17 +6,17 @@ const { Strategy, ExtractJwt } = require('passport-jwt');
 passport.use(new LocalStrategy({
     usernameField: 'login',
     passwordField: 'password',
-}, (login, password, done) => {
-    Users.findOne({ login })
-        .then((user) => {
-            if (!user || !user.validatePassword(password)) {
-                return done(null, false, { errors: 'login is invalid' });
-            }
-
-            return done(null, user);
-        }).catch(done);
+},  async (login, password, done) => {
+    try {
+        const user = await Users.findOne({login}).exec();
+        if (user && user.validatePassword(password)) {
+            done(null, user);
+        }
+        return done(null, false);
+    } catch (err) {
+        done(err);
+    }
 }));
-
 const jwtOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: 'secret',
@@ -27,8 +27,8 @@ passport.use(new Strategy(jwtOptions,
         try {
             const user = await Users.findById(payload.id).exec();
             done(null, user || false);
-        } catch (e) {
-            done(e);
+        } catch (err) {
+            done(err);
         }
     }),
 );
@@ -41,8 +41,8 @@ passport.deserializeUser(async function (id, done) {
     try {
         const user = await Users.findById(id).exec();
         done(null, user);
-    } catch (e) {
-        done(e);
+    } catch (err) {
+        done(err);
     }
 });
 

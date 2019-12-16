@@ -8,5 +8,7 @@ todosRouter.post("/item", itemBodyValidation, userController.createItem);
 todosRouter.get("/item/:id", userController.getItemByID);
 todosRouter.delete("/item/:id", userController.deleteItemById);
 todosRouter.put("/item/:id", itemBodyValidation, userController.updateItemByID);
+todosRouter.delete("/items/deleteCompleted", userController.deleteCompleted);
+
 
 module.exports = todosRouter;

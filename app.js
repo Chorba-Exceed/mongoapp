@@ -1,10 +1,11 @@
-const apiRouter = require('./routes/api.router');
 const authRouter = require('./routes/authRouter');
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const mongoInit = require('./database/connectionDB');
 const passport = require('./helpers/passport');
+const {jwtAuth} = require("./middleware/auth");
+const todosRouter = require('./routes/todosRouter');
 
 app.use(bodyParser.urlencoded({
     extended: true,
@@ -17,7 +18,8 @@ app.use(bodyParser.json({
 
 app.use(passport.initialize());
 app.use(authRouter);
-app.use(apiRouter);
+app.use(jwtAuth);
+app.use('/api', todosRouter);
 
 mongoInit()
     .then((db) => {
@@ -28,3 +30,4 @@ mongoInit()
     .catch(error => console.error(error));
 
 
+//TODO: read promise, async-await, ESLint(Use AIRBNB style guide)
