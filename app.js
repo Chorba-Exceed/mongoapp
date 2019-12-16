@@ -1,16 +1,31 @@
-const todosRouter = require('./routes/todosRouter');
+const apiRouter = require('./routes/api.router');
 const authRouter = require('./routes/authRouter');
 const express = require("express");
-const session = require('express-session');
 const app = express();
 const bodyParser = require("body-parser");
-const jsonParser = bodyParser.json();
+const mongoInit = require('./database/connectionDB');
+const passport = require('./helpers/passport');
+const { PORT } = require('./properties');
 
-app.use(session({ secret: 'admin', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }));
-app.use('/api/todoList', jsonParser, todosRouter);
-app.use('/auth', jsonParser, authRouter);
-require('./database/schems/users');
-require('./helpers/passport');
-app.listen(3000, function () {
-    console.log("Server started");
-});
+app.use(bodyParser.urlencoded({
+    extended: true,
+    limit: '5mb',
+}));
+
+app.use(bodyParser.json({
+    limit: '5mb',
+}));
+
+app.use(passport.initialize());
+app.use(authRouter);
+app.use(apiRouter);
+
+mongoInit()
+    .then((db) => {
+        app.listen(PORT, function () {
+            console.log(`Server started on ${PORT}`);
+        });
+    })
+    .catch(error => console.error(error));
+
+

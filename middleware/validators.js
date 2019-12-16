@@ -1,4 +1,4 @@
-const {setErrorResponse} = require('../helpers/helpers');
+const { setErrorResponse} = require('../helpers/helpers');
 
 function itemBodyValidation(req, res, next) {
 

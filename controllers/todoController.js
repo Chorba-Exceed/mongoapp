@@ -1,6 +1,4 @@
-const bodyParser = require("body-parser");
-const jsonParser = bodyParser.json();
-const Todo = require('../database/schems/todo');
+const Todo = require('../database/models/todo');
 const {setErrorResponse, setUpFieldsToUpdate} = require('../helpers/helpers');
 
 function getItem(req, res) {
