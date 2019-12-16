@@ -2,7 +2,7 @@ const Todo = require('../database/models/todo');
 const {setErrorResponse, setUpFieldsToUpdate} = require('../helpers/helpers');
 
 function getItem(req, res) {
-    Todo.find().then((result) => {
+    Todo.find({author: req.user._id}).then((result) => {
         return res.status(200).send(result);
     }).catch((err) => {
         return res.status(500).send(
@@ -13,6 +13,7 @@ function getItem(req, res) {
 
 function createItem(req, res) {
     const todos = req.body;
+    todos.author = req.user._id;
     Todo.create(todos).then((result) => {
         return res.send(result);
     })
