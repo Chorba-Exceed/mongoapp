@@ -7,6 +7,7 @@ const mongoInit = require('./src/database/connectionDB');
 const passport = require('./src/helpers/passport');
 const { jwtAuth } = require('./src/middleware/auth');
 const todosRouter = require('./src/routes/todosRouter');
+const port = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({
   extended: true,
@@ -24,7 +25,7 @@ app.use('/api', todosRouter);
 
 mongoInit()
   .then(() => {
-    app.listen(3000, () => {
+    app.listen(port, () => {
       console.log('Server started on 3000');
     });
   })
