@@ -36,6 +36,7 @@ app.use(function(req, res, next) {
     if(oneof) {
         res.header('Access-Control-Max-Age', 60 * 60 * 24 * 365);
     }
+    res.header('Access-Control-Allow-Credentials', true);
 
     // intercept OPTIONS method
     if (oneof && req.method === 'OPTIONS') {
