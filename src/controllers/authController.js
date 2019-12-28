@@ -56,6 +56,9 @@ function login(req, res) {
     if (passportUser) {
       return res.json({ token: passportUser.generateJWT() });
     }
+    return res.status(401).send(
+        setErrorResponse(401, 'Invalid login or password'),
+    );
   })(req, res);
 }
 
