@@ -33,7 +33,14 @@ async function register(req, res) {
 
     finalUser.setPassword(user.password);
 
-    return finalUser.save().then(() => res.json(finalUser));
+    return passport.authenticate('local', (err, passportUser) => {
+      if (passportUser) {
+        return res.json({ token: passportUser.generateJWT() });
+      }
+      return res.status(401).send(
+          setErrorResponse(401, 'Invalid login or password'),
+      );
+    })(req, res);
   } catch (e) {
     return res.status(500).send(
       setErrorResponse(500, 'Server error'),
