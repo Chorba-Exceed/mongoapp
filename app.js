@@ -8,7 +8,7 @@ const passport = require('./src/helpers/passport');
 const { jwtAuth } = require('./src/middleware/auth');
 const todosRouter = require('./src/routes/todosRouter');
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 app.use(bodyParser.urlencoded({
   extended: true,

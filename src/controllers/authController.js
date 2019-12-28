@@ -32,7 +32,7 @@ async function register(req, res) {
     const finalUser = new Users(user);
 
     finalUser.setPassword(user.password);
-
+    finalUser.save();
     return passport.authenticate('local', (err, passportUser) => {
       if (passportUser) {
         return res.json({ token: passportUser.generateJWT() });
